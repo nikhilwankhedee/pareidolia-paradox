@@ -1,0 +1,48 @@
+# ============================================================
+# Raw competition data — never commit (large, and may be large/
+# update-downloaded). Place under data/ (gitignored) instead.
+# ============================================================
+/Train/
+/Test/
+/data/raw/
+/data/interim/
+
+# ============================================================
+# Kaggle dataset package built for upload (contains image copies)
+# ============================================================
+/pareidolia_experiment3_kaggle/
+/pareidolia_experiment3_kaggle.zip
+
+# ============================================================
+# Generated archives / model artifacts (regenerable)
+# ============================================================
+*.zip
+model_checkpoints/
+logs/
+*.pt
+*.pth
+
+# ============================================================
+# Python
+# ============================================================
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# ============================================================
+# Kaggle / environment secrets — never commit
+# ============================================================
+.kaggle/
+kaggle.json
+.env
+*.key
+*.pem
+
+# ============================================================
+# OS / editor
+# ============================================================
+.DS_Store
+Thumbs.db

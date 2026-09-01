@@ -1,0 +1,41 @@
+{
+  "experiment": "experiment_3",
+  "validation": {
+    "scheme": "grouped_stratified_5fold_by_exact_image_hash",
+    "n_folds": 5,
+    "seed": 42,
+    "grouping": "exact sha256 image hash",
+    "stratification": "singletons by label; mixed (0,1) duplicate groups round-robin",
+    "leakage_check": "no exact hash may span two folds"
+  },
+  "models": {
+    "A_azimuth": {
+      "features": ["sin(azimuth)", "cos(azimuth)"],
+      "model": "LogisticRegression",
+      "max_iter": 2000
+    },
+    "B_raw_image":   {"encoder": "SmallCNN", "azimuth_concat": false, "rotation": false},
+    "C_raw_image_azimuth": {"encoder": "SmallCNN", "azimuth_concat": true, "rotation": false},
+    "D_rotated_image":     {"encoder": "SmallCNN", "azimuth_concat": false, "rotation": true},
+    "E_rotated_azimuth":   {"encoder": "SmallCNN", "azimuth_concat": true, "rotation": true}
+  },
+  "cnn_train": {
+    "optimizer": "AdamW",
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "batch_size": 32,
+    "epochs": 12,
+    "loss": "BCEWithLogitsLoss (no class weighting)",
+    "scheduler": "CosineAnnealingLR",
+    "mixed_precision": true,
+    "checkpoint_selection": "best validation balanced accuracy per fold"
+  },
+  "rotation": {
+    "method": "PIL Image.rotate(-sun_azimuth_angle)",
+    "resample": "BILINEAR",
+    "expand": false,
+    "size": "256x256",
+    "convention": "A (official)"
+  },
+  "threshold_policy": "report t=0.5; then single global OOF-optimized threshold"
+}
