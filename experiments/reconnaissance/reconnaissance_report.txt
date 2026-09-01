@@ -1,0 +1,841 @@
+
+
+==========================================================================================
+1. METADATA
+==========================================================================================
+ROOT:
+/home/nikhil/projects/ieee-paradox-comp/The Pareidolia Paradox Dataset
+
+Train metadata:
+  Path : /home/nikhil/projects/ieee-paradox-comp/The Pareidolia Paradox Dataset/Train/train_metadata.csv
+  Shape: (7854, 3)
+  Columns: ['image_id', 'sun_azimuth_angle', 'label']
+
+Test metadata:
+  Path : /home/nikhil/projects/ieee-paradox-comp/The Pareidolia Paradox Dataset/Test/test_metadata.csv
+  Shape: (2000, 2)
+  Columns: ['image_id', 'sun_azimuth_angle']
+
+
+==========================================================================================
+2. METADATA SANITY
+==========================================================================================
+Train missing values:
+image_id             0
+sun_azimuth_angle    0
+label                0
+dtype: int64
+
+Test missing values:
+image_id             0
+sun_azimuth_angle    0
+dtype: int64
+
+Train duplicated image IDs: 0
+Test duplicated image IDs: 0
+
+Train labels:
+label
+0    2854
+1    5000
+Name: count, dtype: int64
+
+Train label proportions:
+label
+0    0.363382
+1    0.636618
+Name: proportion, dtype: float64
+
+Unique train azimuth values: 6885
+Unique test azimuth values: 1917
+
+Train azimuth:
+count    7854.000000
+mean      218.616993
+std       107.460348
+min         0.120000
+25%       127.372500
+50%       250.285000
+75%       311.787500
+max       359.970000
+Name: sun_azimuth_angle, dtype: float64
+
+Test azimuth:
+count    2000.00000
+mean      158.95079
+std        80.46320
+min         0.34000
+25%       107.82750
+50%       145.08000
+75%       183.64750
+max       359.69000
+Name: sun_azimuth_angle, dtype: float64
+
+
+==========================================================================================
+3. EXACT IMAGE PATHS
+==========================================================================================
+Train images found: 7854
+Test images found : 2000
+
+TRAIN SAMPLE PATHS:
+  Train/images/train_images/train_00001.png
+  Train/images/train_images/train_00002.png
+  Train/images/train_images/train_00003.png
+  Train/images/train_images/train_00004.png
+  Train/images/train_images/train_00005.png
+  Train/images/train_images/train_00006.png
+  Train/images/train_images/train_00007.png
+  Train/images/train_images/train_00008.png
+  Train/images/train_images/train_00009.png
+  Train/images/train_images/train_00010.png
+  Train/images/train_images/train_00011.png
+  Train/images/train_images/train_00012.png
+  Train/images/train_images/train_00013.png
+  Train/images/train_images/train_00014.png
+  Train/images/train_images/train_00015.png
+  Train/images/train_images/train_00016.png
+  Train/images/train_images/train_00017.png
+  Train/images/train_images/train_00018.png
+  Train/images/train_images/train_00019.png
+  Train/images/train_images/train_00020.png
+
+TEST SAMPLE PATHS:
+  Test/images/eval_images/eval_00001.png
+  Test/images/eval_images/eval_00002.png
+  Test/images/eval_images/eval_00003.png
+  Test/images/eval_images/eval_00004.png
+  Test/images/eval_images/eval_00005.png
+  Test/images/eval_images/eval_00006.png
+  Test/images/eval_images/eval_00007.png
+  Test/images/eval_images/eval_00008.png
+  Test/images/eval_images/eval_00009.png
+  Test/images/eval_images/eval_00010.png
+  Test/images/eval_images/eval_00011.png
+  Test/images/eval_images/eval_00012.png
+  Test/images/eval_images/eval_00013.png
+  Test/images/eval_images/eval_00014.png
+  Test/images/eval_images/eval_00015.png
+  Test/images/eval_images/eval_00016.png
+  Test/images/eval_images/eval_00017.png
+  Test/images/eval_images/eval_00018.png
+  Test/images/eval_images/eval_00019.png
+  Test/images/eval_images/eval_00020.png
+
+
+==========================================================================================
+4. METADATA ↔ IMAGE MATCHING
+==========================================================================================
+Train metadata IDs: 7854
+Train image files : 7854
+Missing train image files: 0
+Extra train image files: 0
+
+Test metadata IDs: 2000
+Test image files : 2000
+Missing test image files: 0
+Extra test image files: 0
+
+
+==========================================================================================
+5. IMAGE DIMENSIONS / MODES / FORMATS
+==========================================================================================
+
+TRAIN
+
+Dimensions:
+  (256, 256): 7854
+
+Modes:
+  RGB: 7854
+
+Formats:
+  PNG: 7854
+
+Corrupt/unreadable: 0
+
+TEST
+
+Dimensions:
+  (256, 256): 2000
+
+Modes:
+  RGB: 2000
+
+Formats:
+  PNG: 2000
+
+Corrupt/unreadable: 0
+
+
+==========================================================================================
+6. INTENSITY / CONTRAST
+==========================================================================================
+
+TRAIN
+Sampled: 3000
+Failed : 0
+
+Mean intensity
+  mean   = 98.4485
+  std    = 32.5882
+  min    = 0.4035
+  p01    = 13.8285
+  p05    = 40.2321
+  p25    = 77.0208
+  median = 99.5982
+  p75    = 121.5137
+  p95    = 150.3690
+  p99    = 166.5635
+  max    = 186.9580
+
+Std / contrast
+  mean   = 52.7806
+  std    = 14.2418
+  min    = 3.2055
+  p01    = 17.4319
+  p05    = 28.1507
+  p25    = 43.6505
+  median = 53.2378
+  p75    = 62.3483
+  p95    = 75.7627
+  p99    = 82.4952
+  max    = 87.7251
+
+Minimum
+  mean   = 0.0320
+  std    = 0.9443
+  min    = 0.0000
+  p01    = 0.0000
+  p05    = 0.0000
+  p25    = 0.0000
+  median = 0.0000
+  p75    = 0.0000
+  p95    = 0.0000
+  p99    = 0.0000
+  max    = 39.0000
+
+Median
+  mean   = 116.3268
+  std    = 41.5135
+  min    = 0.0000
+  p01    = 0.0000
+  p05    = 2.0000
+  p25    = 100.0000
+  median = 123.0000
+  p75    = 145.0000
+  p95    = 168.0000
+  p99    = 179.0000
+  max    = 189.0000
+
+Maximum
+  mean   = 214.7900
+  std    = 14.7225
+  min    = 84.0000
+  p01    = 164.9800
+  p05    = 184.0000
+  p25    = 210.0000
+  median = 219.0000
+  p75    = 224.0000
+  p95    = 231.0000
+  p99    = 235.0000
+  max    = 239.0000
+
+Dynamic range
+  mean   = 214.7580
+  std    = 14.7351
+  min    = 84.0000
+  p01    = 164.9800
+  p05    = 184.0000
+  p25    = 210.0000
+  median = 219.0000
+  p75    = 224.0000
+  p95    = 231.0000
+  p99    = 235.0000
+  max    = 239.0000
+
+Fraction <= 25
+  mean   = 0.2543
+  std    = 0.1742
+  min    = 0.0000
+  p01    = 0.0056
+  p05    = 0.0293
+  p25    = 0.1197
+  median = 0.2364
+  p75    = 0.3562
+  p95    = 0.5468
+  p99    = 0.8464
+  max    = 0.9949
+
+Fraction >= 230
+  mean   = 0.0000
+  std    = 0.0000
+  min    = 0.0000
+  p01    = 0.0000
+  p05    = 0.0000
+  p25    = 0.0000
+  median = 0.0000
+  p75    = 0.0000
+  p95    = 0.0000
+  p99    = 0.0001
+  max    = 0.0013
+
+TEST
+Sampled: 2000
+Failed : 0
+
+Mean intensity
+  mean   = 97.5634
+  std    = 32.6625
+  min    = 0.6154
+  p01    = 11.9873
+  p05    = 38.9709
+  p25    = 76.4850
+  median = 98.7365
+  p75    = 120.4169
+  p95    = 149.1774
+  p99    = 165.7314
+  max    = 186.9580
+
+Std / contrast
+  mean   = 53.1352
+  std    = 14.1375
+  min    = 5.2036
+  p01    = 19.8309
+  p05    = 29.2241
+  p25    = 43.7555
+  median = 53.5869
+  p75    = 63.2517
+  p95    = 75.8355
+  p99    = 82.3729
+  max    = 87.9505
+
+Minimum
+  mean   = 0.0030
+  std    = 0.1000
+  min    = 0.0000
+  p01    = 0.0000
+  p05    = 0.0000
+  p25    = 0.0000
+  median = 0.0000
+  p75    = 0.0000
+  p95    = 0.0000
+  p99    = 0.0000
+  max    = 4.0000
+
+Median
+  mean   = 115.4790
+  std    = 42.6059
+  min    = 0.0000
+  p01    = 0.0000
+  p05    = 0.0000
+  p25    = 100.0000
+  median = 124.0000
+  p75    = 145.0000
+  p95    = 167.0000
+  p99    = 178.0100
+  max    = 189.0000
+
+Maximum
+  mean   = 213.8340
+  std    = 15.5382
+  min    = 117.0000
+  p01    = 158.0000
+  p05    = 181.0000
+  p25    = 209.0000
+  median = 218.0000
+  p75    = 224.0000
+  p95    = 230.0000
+  p99    = 235.0000
+  max    = 255.0000
+
+Dynamic range
+  mean   = 213.8310
+  std    = 15.5367
+  min    = 117.0000
+  p01    = 158.0000
+  p05    = 181.0000
+  p25    = 209.0000
+  median = 218.0000
+  p75    = 224.0000
+  p95    = 230.0000
+  p99    = 235.0000
+  max    = 255.0000
+
+Fraction <= 25
+  mean   = 0.2605
+  std    = 0.1794
+  min    = 0.0001
+  p01    = 0.0091
+  p05    = 0.0336
+  p25    = 0.1234
+  median = 0.2414
+  p75    = 0.3581
+  p95    = 0.5694
+  p99    = 0.8826
+  max    = 0.9901
+
+Fraction >= 230
+  mean   = 0.0000
+  std    = 0.0000
+  min    = 0.0000
+  p01    = 0.0000
+  p05    = 0.0000
+  p25    = 0.0000
+  median = 0.0000
+  p75    = 0.0000
+  p95    = 0.0000
+  p99    = 0.0001
+  max    = 0.0008
+
+
+==========================================================================================
+7. SOLAR AZIMUTH DISTRIBUTION
+==========================================================================================
+
+--- 10° bins ---
+                   train  test  train_pct  test_pct
+sun_azimuth_angle                                  
+[0, 10)              134    23   1.706137      1.15
+[10, 20)             161    37   2.049911      1.85
+[20, 30)             159    25   2.024446      1.25
+[30, 40)             178    24   2.266361      1.20
+[40, 50)             136    31   1.731602      1.55
+[50, 60)             144    26   1.833461      1.30
+[60, 70)             177    31   2.253629      1.55
+[70, 80)             154    22   1.960784      1.10
+[80, 90)             143    34   1.820728      1.70
+[90, 100)            152   137   1.935320      6.85
+[100, 110)           154   139   1.960784      6.95
+[110, 120)           147   139   1.871658      6.95
+[120, 130)           167   133   2.126305      6.65
+[130, 140)           171   123   2.177235      6.15
+[140, 150)           145   153   1.846193      7.65
+[150, 160)           161   132   2.049911      6.60
+[160, 170)           168   138   2.139037      6.90
+[170, 180)           163   136   2.075376      6.80
+[180, 190)           172    30   2.189967      1.50
+[190, 200)           157    29   1.998981      1.45
+[200, 210)           156    29   1.986249      1.45
+[210, 220)           147    20   1.871658      1.00
+[220, 230)           148    32   1.884390      1.60
+[230, 240)           155    25   1.973517      1.25
+[240, 250)           174    31   2.215432      1.55
+[250, 260)           147    26   1.871658      1.30
+[260, 270)           141    30   1.795264      1.50
+[270, 280)           404    28   5.143876      1.40
+[280, 290)           400    26   5.092946      1.30
+[290, 300)           423    30   5.385791      1.50
+[300, 310)           383    33   4.876496      1.65
+[310, 320)           405    32   5.156608      1.60
+[320, 330)           412    28   5.245735      1.40
+[330, 340)           404    28   5.143876      1.40
+[340, 350)           435    21   5.538579      1.05
+[350, 360)           377    39   4.800102      1.95
+
+--- 30° bins ---
+                   train  test  train_pct  test_pct
+sun_azimuth_angle                                  
+[0, 30)              454    85   5.780494      4.25
+[30, 60)             458    81   5.831423      4.05
+[60, 90)             474    87   6.035141      4.35
+[90, 120)            453   415   5.767762     20.75
+[120, 150)           483   409   6.149733     20.45
+[150, 180)           492   406   6.264324     20.30
+[180, 210)           485    88   6.175197      4.40
+[210, 240)           450    77   5.729565      3.85
+[240, 270)           462    87   5.882353      4.35
+[270, 300)          1227    84  15.622613      4.20
+[300, 330)          1200    93  15.278839      4.65
+[330, 360)          1216    88  15.482557      4.40
+
+--- 45° bins ---
+                   train  test  train_pct  test_pct
+sun_azimuth_angle                                  
+[0, 45)              693   127   8.823529      6.35
+[45, 90)             693   126   8.823529      6.30
+[90, 135)            722   605   9.192768     30.25
+[135, 180)           706   625   8.989050     31.25
+[180, 225)           712   125   9.065444      6.25
+[225, 270)           685   127   8.721670      6.35
+[270, 315)          1818   134  23.147441      6.70
+[315, 360)          1825   131  23.236567      6.55
+
+--- 60° bins ---
+                   train  test  train_pct  test_pct
+sun_azimuth_angle                                  
+[0, 60)              912   166  11.611917      8.30
+[60, 120)            927   502  11.802903     25.10
+[120, 180)           975   815  12.414057     40.75
+[180, 240)           935   165  11.904762      8.25
+[240, 300)          1689   171  21.504966      8.55
+[300, 360)          2416   181  30.761395      9.05
+
+--- 90° bins ---
+                   train  test  train_pct  test_pct
+sun_azimuth_angle                                  
+[0, 90)             1386   253  17.647059     12.65
+[90, 180)           1428  1230  18.181818     61.50
+[180, 270)          1397   252  17.787115     12.60
+[270, 360)          3643   265  46.384008     13.25
+
+
+==========================================================================================
+8. CLASS ↔ AZIMUTH RELATIONSHIP
+==========================================================================================
+Azimuth statistics by class:
+       count        mean         std   min   median     max
+label                                                      
+0       2854  283.766247   78.905836  3.59  305.335  359.90
+1       5000  181.429798  103.830533  0.12  181.160  359.97
+
+--- CLASS PROPORTION BY 10° AZIMUTH ---
+label           0      1
+az_bin                  
+[0, 10)     0.060  0.940
+[10, 20)    0.118  0.882
+[20, 30)    0.157  0.843
+[30, 40)    0.112  0.888
+[40, 50)    0.162  0.838
+[50, 60)    0.139  0.861
+[60, 70)    0.107  0.893
+[70, 80)    0.104  0.896
+[80, 90)    0.112  0.888
+[90, 100)   0.125  0.875
+[100, 110)  0.091  0.909
+[110, 120)  0.129  0.871
+[120, 130)  0.174  0.826
+[130, 140)  0.117  0.883
+[140, 150)  0.076  0.924
+[150, 160)  0.124  0.876
+[160, 170)  0.083  0.917
+[170, 180)  0.135  0.865
+[180, 190)  0.099  0.901
+[190, 200)  0.096  0.904
+[200, 210)  0.109  0.891
+[210, 220)  0.102  0.898
+[220, 230)  0.162  0.838
+[230, 240)  0.090  0.910
+[240, 250)  0.132  0.868
+[250, 260)  0.116  0.884
+[260, 270)  0.177  0.823
+[270, 280)  0.621  0.379
+[280, 290)  0.652  0.348
+[290, 300)  0.671  0.329
+[300, 310)  0.634  0.366
+[310, 320)  0.664  0.336
+[320, 330)  0.626  0.374
+[330, 340)  0.646  0.354
+[340, 350)  0.664  0.336
+[350, 360)  0.631  0.369
+
+--- CLASS PROPORTION BY 30° AZIMUTH ---
+label           0      1
+az_bin                  
+[0, 30)     0.115  0.885
+[30, 60)    0.135  0.865
+[60, 90)    0.108  0.892
+[90, 120)   0.115  0.885
+[120, 150)  0.124  0.876
+[150, 180)  0.114  0.886
+[180, 210)  0.101  0.899
+[210, 240)  0.118  0.882
+[240, 270)  0.141  0.859
+[270, 300)  0.649  0.351
+[300, 330)  0.642  0.358
+[330, 360)  0.648  0.352
+
+--- CLASS PROPORTION BY 45° AZIMUTH ---
+label           0      1
+az_bin                  
+[0, 45)     0.118  0.882
+[45, 90)    0.120  0.880
+[90, 135)   0.129  0.871
+[135, 180)  0.106  0.894
+[180, 225)  0.110  0.890
+[225, 270)  0.130  0.870
+[270, 315)  0.652  0.348
+[315, 360)  0.640  0.360
+
+--- CLASS PROPORTION BY 60° AZIMUTH ---
+label           0      1
+az_bin                  
+[0, 60)     0.125  0.875
+[60, 120)   0.111  0.889
+[120, 180)  0.119  0.881
+[180, 240)  0.109  0.891
+[240, 300)  0.510  0.490
+[300, 360)  0.645  0.355
+
+--- CLASS PROPORTION BY 90° AZIMUTH ---
+label           0      1
+az_bin                  
+[0, 90)     0.119  0.881
+[90, 180)   0.118  0.882
+[180, 270)  0.120  0.880
+[270, 360)  0.646  0.354
+
+
+==========================================================================================
+9. AZIMUTH-ONLY BASELINE
+==========================================================================================
+5-fold Balanced Accuracy: 0.7760409250175193
+
+Confusion matrix:
+[[2288  566]
+ [1248 3752]]
+
+
+==========================================================================================
+10. FILENAME / ORDER STRUCTURE
+==========================================================================================
+First 30 train IDs:
+['train_00001.png', 'train_00002.png', 'train_00003.png', 'train_00004.png', 'train_00005.png', 'train_00006.png', 'train_00007.png', 'train_00008.png', 'train_00009.png', 'train_00010.png', 'train_00011.png', 'train_00012.png', 'train_00013.png', 'train_00014.png', 'train_00015.png', 'train_00016.png', 'train_00017.png', 'train_00018.png', 'train_00019.png', 'train_00020.png', 'train_00021.png', 'train_00022.png', 'train_00023.png', 'train_00024.png', 'train_00025.png', 'train_00026.png', 'train_00027.png', 'train_00028.png', 'train_00029.png', 'train_00030.png']
+
+Last 30 train IDs:
+['train_07825.png', 'train_07826.png', 'train_07827.png', 'train_07828.png', 'train_07829.png', 'train_07830.png', 'train_07831.png', 'train_07832.png', 'train_07833.png', 'train_07834.png', 'train_07835.png', 'train_07836.png', 'train_07837.png', 'train_07838.png', 'train_07839.png', 'train_07840.png', 'train_07841.png', 'train_07842.png', 'train_07843.png', 'train_07844.png', 'train_07845.png', 'train_07846.png', 'train_07847.png', 'train_07848.png', 'train_07849.png', 'train_07850.png', 'train_07851.png', 'train_07852.png', 'train_07853.png', 'train_07854.png']
+
+First 30 test IDs:
+['eval_00001.png', 'eval_00002.png', 'eval_00003.png', 'eval_00004.png', 'eval_00005.png', 'eval_00006.png', 'eval_00007.png', 'eval_00008.png', 'eval_00009.png', 'eval_00010.png', 'eval_00011.png', 'eval_00012.png', 'eval_00013.png', 'eval_00014.png', 'eval_00015.png', 'eval_00016.png', 'eval_00017.png', 'eval_00018.png', 'eval_00019.png', 'eval_00020.png', 'eval_00021.png', 'eval_00022.png', 'eval_00023.png', 'eval_00024.png', 'eval_00025.png', 'eval_00026.png', 'eval_00027.png', 'eval_00028.png', 'eval_00029.png', 'eval_00030.png']
+
+Last 30 test IDs:
+['eval_01971.png', 'eval_01972.png', 'eval_01973.png', 'eval_01974.png', 'eval_01975.png', 'eval_01976.png', 'eval_01977.png', 'eval_01978.png', 'eval_01979.png', 'eval_01980.png', 'eval_01981.png', 'eval_01982.png', 'eval_01983.png', 'eval_01984.png', 'eval_01985.png', 'eval_01986.png', 'eval_01987.png', 'eval_01988.png', 'eval_01989.png', 'eval_01990.png', 'eval_01991.png', 'eval_01992.png', 'eval_01993.png', 'eval_01994.png', 'eval_01995.png', 'eval_01996.png', 'eval_01997.png', 'eval_01998.png', 'eval_01999.png', 'eval_02000.png']
+
+Train numeric ID range: 1 → 7854
+Test numeric ID range: 1 → 2000
+
+Train IDs sequential: True
+Test IDs sequential: True
+
+
+==========================================================================================
+11. LABEL ↔ IMAGE ID ARTIFACT TEST
+==========================================================================================
+Correlation between numeric image ID and label: 0.010952395069197372
+
+Label distribution by ID quartile:
+label                  0      1
+id_quartile                    
+(0.999, 1964.25]   0.375  0.625
+(1964.25, 3927.5]  0.354  0.646
+(3927.5, 5890.75]  0.370  0.630
+(5890.75, 7854.0]  0.355  0.645
+
+
+==========================================================================================
+12. EXACT DUPLICATE ANALYSIS
+==========================================================================================
+Train unique hashes: 6396
+Train duplicate groups: 1458
+Test unique hashes: 1902
+Test duplicate groups: 98
+Train ↔ Test exact duplicate hashes: 829
+
+Train duplicate examples:
+
+GROUP:
+  Train/images/train_images/train_00001.png
+  Train/images/train_images/train_06657.png
+
+GROUP:
+  Train/images/train_images/train_00005.png
+  Train/images/train_images/train_07435.png
+
+GROUP:
+  Train/images/train_images/train_00006.png
+  Train/images/train_images/train_04407.png
+
+GROUP:
+  Train/images/train_images/train_00009.png
+  Train/images/train_images/train_00265.png
+
+GROUP:
+  Train/images/train_images/train_00010.png
+  Train/images/train_images/train_01519.png
+
+GROUP:
+  Train/images/train_images/train_00012.png
+  Train/images/train_images/train_02593.png
+
+GROUP:
+  Train/images/train_images/train_00013.png
+  Train/images/train_images/train_02557.png
+
+GROUP:
+  Train/images/train_images/train_00019.png
+  Train/images/train_images/train_05198.png
+
+GROUP:
+  Train/images/train_images/train_00020.png
+  Train/images/train_images/train_03487.png
+
+GROUP:
+  Train/images/train_images/train_00022.png
+  Train/images/train_images/train_01439.png
+
+Test duplicate examples:
+
+GROUP:
+  Test/images/eval_images/eval_00001.png
+  Test/images/eval_images/eval_01122.png
+
+GROUP:
+  Test/images/eval_images/eval_00047.png
+  Test/images/eval_images/eval_00574.png
+
+GROUP:
+  Test/images/eval_images/eval_00058.png
+  Test/images/eval_images/eval_01819.png
+
+GROUP:
+  Test/images/eval_images/eval_00068.png
+  Test/images/eval_images/eval_00244.png
+
+GROUP:
+  Test/images/eval_images/eval_00079.png
+  Test/images/eval_images/eval_00571.png
+
+GROUP:
+  Test/images/eval_images/eval_00111.png
+  Test/images/eval_images/eval_00318.png
+
+GROUP:
+  Test/images/eval_images/eval_00116.png
+  Test/images/eval_images/eval_01794.png
+
+GROUP:
+  Test/images/eval_images/eval_00118.png
+  Test/images/eval_images/eval_01578.png
+
+GROUP:
+  Test/images/eval_images/eval_00128.png
+  Test/images/eval_images/eval_00677.png
+
+GROUP:
+  Test/images/eval_images/eval_00140.png
+  Test/images/eval_images/eval_00337.png
+
+WARNING: TRAIN/TEST EXACT DUPLICATES EXIST
+
+HASH: f8d0d7ac57ef8b6c651899c76ebdbef7a33292c020e8356489d6b989f28717a9
+TRAIN:
+  Train/images/train_images/train_02486.png
+TEST:
+  Test/images/eval_images/eval_00533.png
+
+HASH: a461157b23892bd46754ae8d588c89c2bb4682521c006f0d18d5bf93699564d1
+TRAIN:
+  Train/images/train_images/train_03332.png
+TEST:
+  Test/images/eval_images/eval_00932.png
+
+HASH: bda08c51decb3a6f531ac34c9ad0ac2564fee3ece72594f6a553d716812db76e
+TRAIN:
+  Train/images/train_images/train_03693.png
+TEST:
+  Test/images/eval_images/eval_00808.png
+
+HASH: 2ba1dbdf2f9db191db2faea0b2e32649e933848053c008d58c44a66680d36b0c
+TRAIN:
+  Train/images/train_images/train_03156.png
+TEST:
+  Test/images/eval_images/eval_01867.png
+
+HASH: f20a50e7277c15762feb6f1e957930146f360c86f7b0b18488bc8f07ad4164ea
+TRAIN:
+  Train/images/train_images/train_02959.png
+TEST:
+  Test/images/eval_images/eval_00834.png
+
+HASH: 71123fedb47bf0be03012486dda84ceeded8b68fb2f173a5ae133af15a434e09
+TRAIN:
+  Train/images/train_images/train_02070.png
+TEST:
+  Test/images/eval_images/eval_00665.png
+
+HASH: 59564be1a4de6d47923d614715cb53a6a39c0a32203c5d7048d1c56c368ed46a
+TRAIN:
+  Train/images/train_images/train_07514.png
+TEST:
+  Test/images/eval_images/eval_00535.png
+
+HASH: 5390fe334df06113276ee1a9a5c7fae3c64b11711d3c73b6d952b1eef99821d7
+TRAIN:
+  Train/images/train_images/train_05645.png
+TEST:
+  Test/images/eval_images/eval_00889.png
+
+HASH: 7765efa952e16699d5efcfb6fc61caf19aac450a0bece66849e6246b3761d2fe
+TRAIN:
+  Train/images/train_images/train_03882.png
+TEST:
+  Test/images/eval_images/eval_00197.png
+
+HASH: 75a3275f99abfbeab166b59e8b66e27d05f3aa31c2e940dbace57f07c38e31ea
+TRAIN:
+  Train/images/train_images/train_03057.png
+TEST:
+  Test/images/eval_images/eval_00278.png
+
+
+==========================================================================================
+13. DIMENSION / FILESIZE ARTIFACTS
+==========================================================================================
+
+TRAIN
+Mean bytes: 56191.80952380953
+Std bytes : 12808.138347833205
+Min bytes : 2941.0
+Median    : 56556.0
+Max bytes : 93465.0
+
+TEST
+Mean bytes: 55558.611
+Std bytes : 13033.059521796062
+Min bytes : 3469.0
+Median    : 55934.0
+Max bytes : 88942.0
+
+
+==========================================================================================
+14. FILE SIZE ↔ LABEL
+==========================================================================================
+       count         mean           std   min   median    max
+label                                                        
+0       2854  56434.56377  12831.509533  4416  56913.5  93465
+1       5000  56053.24540  12795.280551  2941  56323.0  92123
+
+File-size correlation with label: -0.01431933362175735
+
+
+==========================================================================================
+15. AZIMUTH ↔ IMAGE STATISTICS
+==========================================================================================
+                   sun_azimuth_angle  img_mean   img_std
+sun_azimuth_angle           1.000000  0.010673 -0.024496
+img_mean                    0.010673  1.000000 -0.072464
+img_std                    -0.024496 -0.072464  1.000000
+
+
+==========================================================================================
+16. TRAIN ↔ TEST DISTRIBUTION SHIFT
+==========================================================================================
+Train azimuth mean: 218.61699261522793
+Test azimuth mean: 158.95078999999998
+Train azimuth std: 107.46034844507312
+Test azimuth std: 80.4631998340836
+
+
+==========================================================================================
+17. AUTOMATIC FLAGS
+==========================================================================================
+- WARNING: exact train/test duplicate images found
+- NOTICE: duplicate images exist inside training data
+- NOTICE: duplicate images exist inside test data
+- IMPORTANT: azimuth-only model has BA=0.7760
+- NOTICE: substantial train/test azimuth mean shift
+
+
+==========================================================================================
+RECONNAISSANCE COMPLETE
+==========================================================================================
