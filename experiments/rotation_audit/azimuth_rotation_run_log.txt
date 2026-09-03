@@ -1,0 +1,161 @@
+
+
+==========================================================================================
+LOADING METADATA + HASHING
+==========================================================================================
+Train unique hashes: 6396
+Test  unique hashes: 1902
+Cross-split shared hashes: 829
+
+
+==========================================================================================
+A. TRAIN CONFLICTING PAIR ANALYSIS (1458 groups)
+==========================================================================================
+Conflicting train pairs: 1458
+  [300/1458] elapsed 20.3s
+  [600/1458] elapsed 39.6s
+  [900/1458] elapsed 59.1s
+  [1200/1458] elapsed 80.6s
+  Done processing 1458 pairs in 96.9s
+Saved pair metrics: /home/nikhil/projects/ieee-paradox-comp/The Pareidolia Paradox Dataset/azimuth_rotation_pair_metrics.csv (1458 rows)
+
+==== Convention comparison (over 1458 conflicting pairs) ====
+
+  Convention A  (corr)
+    mean   = 0.2883
+    median = 0.2977
+    p10    = -0.1127
+    p25    = 0.0700
+    p75    = 0.5014
+    p90    = 0.7019
+
+  Convention B  (corr)
+    mean   = 0.2886
+    median = 0.3001
+    p10    = -0.1139
+    p25    = 0.0731
+    p75    = 0.5024
+    p90    = 0.7037
+
+  Convention C  (corr)
+    mean   = 0.2883
+    median = 0.2977
+    p10    = -0.1127
+    p25    = 0.0700
+    p75    = 0.5014
+    p90    = 0.7019
+
+  Convention D  (corr)
+    mean   = 0.2886
+    median = 0.3001
+    p10    = -0.1139
+    p25    = 0.0731
+    p75    = 0.5024
+    p90    = 0.7037
+
+  Best-flip winner counts (official convention A):
+    hflip     : 377  (25.9%)
+    identity  : 327  (22.4%)
+    rot180    : 358  (24.6%)
+    vflip     : 396  (27.2%)
+
+
+==========================================================================================
+B. VISUAL INSPECTION GRIDS
+==========================================================================================
+Selected 40 pairs for visual grids
+  saved pair_grid_000_hdiff7.png
+  saved pair_grid_001_hdiff4.png
+  saved pair_grid_002_hdiff8.png
+  saved pair_grid_003_hdiff1.png
+  saved pair_grid_004_hdiff1.png
+  saved pair_grid_005_hdiff1.png
+  saved pair_grid_006_hdiff7.png
+  saved pair_grid_007_hdiff1.png
+  saved pair_grid_008_hdiff52.png
+  saved pair_grid_009_hdiff48.png
+  saved pair_grid_010_hdiff48.png
+  saved pair_grid_011_hdiff54.png
+  saved pair_grid_012_hdiff51.png
+  saved pair_grid_013_hdiff30.png
+  saved pair_grid_014_hdiff51.png
+  saved pair_grid_015_hdiff59.png
+  saved pair_grid_016_hdiff74.png
+  saved pair_grid_017_hdiff88.png
+  saved pair_grid_018_hdiff87.png
+  saved pair_grid_019_hdiff82.png
+  saved pair_grid_020_hdiff81.png
+  saved pair_grid_021_hdiff100.png
+  saved pair_grid_022_hdiff70.png
+  saved pair_grid_023_hdiff104.png
+  saved pair_grid_024_hdiff133.png
+  saved pair_grid_025_hdiff127.png
+  saved pair_grid_026_hdiff147.png
+  saved pair_grid_027_hdiff115.png
+  saved pair_grid_028_hdiff116.png
+  saved pair_grid_029_hdiff149.png
+  saved pair_grid_030_hdiff141.png
+  saved pair_grid_031_hdiff152.png
+  saved pair_grid_032_hdiff168.png
+  saved pair_grid_033_hdiff168.png
+  saved pair_grid_034_hdiff178.png
+  saved pair_grid_035_hdiff173.png
+  saved pair_grid_036_hdiff168.png
+  saved pair_grid_037_hdiff161.png
+  saved pair_grid_038_hdiff165.png
+  saved pair_grid_039_hdiff158.png
+Saved 40 pair grids to /home/nikhil/projects/ieee-paradox-comp/The Pareidolia Paradox Dataset/azimuth_rotation_audit/pair_grids
+
+
+==========================================================================================
+C. CROSS-SPLIT DUPLICATE ANALYSIS (829)
+==========================================================================================
+  [200/829] 3.8s
+  [400/829] 7.6s
+  [600/829] 11.4s
+  [800/829] 15.1s
+Saved cross-split: /home/nikhil/projects/ieee-paradox-comp/The Pareidolia Paradox Dataset/azimuth_rotation_cross_split.csv (829 rows)
+
+  Cross-split canonicalized similarity (official A):
+    mean corr = 0.2979, median = 0.3129 (valid rows: 828/829)
+    mean MAE  = 44.7160
+
+  Best-flip winner (official A):
+    vflip     : 218 (26.3%)
+    rot180    : 205 (24.7%)
+    hflip     : 204 (24.6%)
+    identity  : 201 (24.2%)
+    NONE      : 1 (0.1%)
+
+  Training conflicting-pair official corr distribution (reference):
+    cross_split   : mean=0.2979 median=0.3129 P10..P90=-0.113,0.093,0.313,0.507,0.720
+    train_conflict: mean=0.2883 median=0.2977 P10..P90=-0.113,0.070,0.298,0.501,0.702
+
+
+==========================================================================================
+D. SYNTHETIC GEOMETRY SANITY CHECK
+==========================================================================================
+  Synthetic: corr between -az rotations of lights
+    corr(rot(-0),rot(-90)) = 0.6350
+    corr(rot(-0),rot(-180)) = 0.9801
+    corr(rot(-0),rot(-270)) = 0.6463
+    corr(rot(-90),rot(-180)) = 0.6463
+    corr(rot(-90),rot(-270)) = 0.9801
+    corr(rot(-180),rot(-270)) = 0.6624
+  Saved /home/nikhil/projects/ieee-paradox-comp/The Pareidolia Paradox Dataset/azimuth_rotation_audit/synthetic_sanity.png
+
+
+==========================================================================================
+E. WRITING SUMMARY MARKDOWN
+==========================================================================================
+Saved summary: /home/nikhil/projects/ieee-paradox-comp/The Pareidolia Paradox Dataset/azimuth_rotation_summary.md
+
+
+==========================================================================================
+COMPLETE
+==========================================================================================
+Generated files:
+   /home/nikhil/projects/ieee-paradox-comp/The Pareidolia Paradox Dataset/azimuth_rotation_pair_metrics.csv
+   /home/nikhil/projects/ieee-paradox-comp/The Pareidolia Paradox Dataset/azimuth_rotation_cross_split.csv
+   /home/nikhil/projects/ieee-paradox-comp/The Pareidolia Paradox Dataset/azimuth_rotation_summary.md
+   /home/nikhil/projects/ieee-paradox-comp/The Pareidolia Paradox Dataset/azimuth_rotation_audit/synthetic_sanity.png
