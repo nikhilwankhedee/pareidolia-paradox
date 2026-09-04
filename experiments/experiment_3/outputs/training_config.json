@@ -1,0 +1,8 @@
+{
+  "n_folds": 5,
+  "seed": 42,
+  "n_rows": 7854,
+  "n_unique_hashes": 6396,
+  "grouping": "exact sha256 image hash",
+  "stratification": "singletons by label, mixed groups round-robin"
+}
