@@ -21,6 +21,7 @@ model_checkpoints/
 logs/
 *.pt
 *.pth
+exp5_outputs/
 
 # ============================================================
 # Python
