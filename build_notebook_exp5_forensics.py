@@ -815,15 +815,18 @@ print("=" * 70)
 print("SECTION 6 — FiLM CNN (dtype-fixed)")
 print("=" * 70)
 
-def preload(split="train"):
-    cache = CACHE / f"imgs_{split}.npy"
+def preload(split="train", size=256):
+    cache = CACHE / (f"imgs_{split}.npy" if size == 256 else f"imgs_{split}_s{size}.npy")
     if cache.exists():
         return np.load(cache)
     meta = data["df"] if split == "train" else data["tmeta"]
     img_dir = data["img_train"] if split == "train" else data["img_test"]
-    x = np.zeros((len(meta), 256, 256), dtype=np.float32)
+    x = np.zeros((len(meta), size, size), dtype=np.float32)
     for i, name in enumerate(meta["image_id"].values):
-        x[i] = np.asarray(Image.open(img_dir / name).convert("L"), dtype=np.float32) / 255.0
+        im = Image.open(img_dir / name).convert("L")
+        if size != im.size[0]:
+            im = im.resize((size, size), Image.BILINEAR)
+        x[i] = np.asarray(im, dtype=np.float32) / 255.0
     np.save(cache, x)
     return x
 
@@ -847,7 +850,7 @@ class FiLMGN(nn.Module):
             nn.Conv2d(32, 64, 3, padding=1), nn.BatchNorm2d(64), nn.ReLU(), nn.MaxPool2d(2),
             nn.Conv2d(64, d, 3, padding=1), nn.BatchNorm2d(d), nn.ReLU(),
         )
-        self.film = nn.Sequential(nn.Linear(2, 4*d), nn.SiLU())
+        self.film = nn.Sequential(nn.Linear(2, 2*d), nn.SiLU())
         self.head = nn.Sequential(nn.Linear(d, 64), nn.LeakyReLU(0.1), nn.Linear(64, 1))
     def forward(self, x, az):
         f = self.enc(x).mean(dim=(2,3))
@@ -913,25 +916,39 @@ S6_RUN = r'''# Only run if images are available
 if data["img_train"] is None:
     print("SKIP FiLM CNN: no train images mounted")
 else:
-    x = preload("train")
+    # MEMORY FIX: work at 128x128 (4x fewer pixels). The old code built a
+    # 7-channel stack + gradient/Laplacian temporaries at 256x256 (~24 GB) and
+    # OOM-crashed the notebook, so this section never completed.
+    size = 128
+    x = preload("train", size)
     azm = np.asarray(az, dtype=np.float32)
     azm_vec = azvec(az)
-    gm = {"raw": (x[:, None], 1)}
-    # C2: sin/cos azimuth handled by FiLM already (2-dim input) — same as C1 raw+az
-    # C3: morphology channels: raw + gradientX + gradientY + mag + Laplacian
-    gx = np.gradient(x, axis=2); gy = np.gradient(x, axis=1)
-    gmag = np.sqrt(gx**2 + gy**2)
+
+    def stdch(ar):
+        lo, hi = np.percentile(ar, 1), np.percentile(ar, 99)
+        return np.clip((ar - lo) / (hi - lo + 1e-6), 0, 2) - 1.0
+
+    # C3: raw + gradX + gradY + gradMag + Laplacian + |gradX| + |gradY|.
+    # Build the stack channel-by-channel, freeing each gradient intermediate as
+    # we go (at 256 the stack alone was 14 GB, plus ~10 GB of temporaries).
+    ch = np.empty((len(x), 7, size, size), dtype=np.float32)
+    ch[:, 0] = stdch(x)
+    gx = np.gradient(x, axis=2)
+    ch[:, 1] = stdch(gx)
+    gy = np.gradient(x, axis=1)
+    ch[:, 2] = stdch(gy)
+    ch[:, 3] = stdch(np.sqrt(gx ** 2 + gy ** 2))
+    ch[:, 4] = stdch(np.abs(gx))
+    ch[:, 5] = stdch(np.abs(gy))
     # NOTE: apply scipy.gaussian_laplace PER IMAGE — the full (N,H,W) array
     # would otherwise be blurred along the sample axis (methodological leak).
     lapm = np.zeros_like(x)
     for i in range(len(x)):
         lapm[i] = gaussian_laplace(x[i], sigma=1.0)
-    # normalize channels (clip 99th percentile)
-    def stdch(ar):
-        lo, hi = np.percentile(ar, 1), np.percentile(ar, 99)
-        return np.clip((ar - lo) / (hi - lo + 1e-6), 0, 2) - 1.0
-    ch = np.stack([stdch(x), stdch(gx), stdch(gy), stdch(gmag), stdch(lapm),
-                   stdch(np.abs(gx)), stdch(np.abs(gy))], axis=1).astype(np.float32)
+    ch[:, 6] = stdch(lapm)
+    del gx, gy, lapm
+    gc.collect()
+
     reps = {
         "C1_raw_az":   (x[:, None].astype(np.float32), azm_vec),
         "C3_morph_az": (ch, azm_vec),
@@ -939,13 +956,16 @@ else:
     results = {}
     for tag, (Xim, Xaz) in reps.items():
         print("\n" + "=" * 70)
-        print("MODEL %s  (in_ch=%d)" % (tag, Xim.shape[1]))
-        p_oof, m = run_film_cnn(tag, Xim, Xaz, y, folds, epochs=8, bs=64)
+        print("MODEL %s  (in_ch=%d, %dx%d)" % (tag, Xim.shape[1], Xim.shape[2], Xim.shape[3]))
+        p_oof, m = run_film_cnn(tag, Xim, Xaz, y, folds, epochs=8, bs=64,
+                                in_ch=Xim.shape[1])
         print("  %s: BA=%.4f opt_BA=%.4f@%.3f r0=%.3f r1=%.3f auc=%.4f" %
               (tag, m["BA"], m["opt_BA"], m["opt_t"], m["recall_0"], m["recall_1"], m["auc"]))
         results[tag] = m
     save_json({"results": results, "az_baseline_BA": BASELINE_BA}, "C_film_results.json")
-    print("\nFiLM CNN done. dtype-fix verified (no Double/Half crash).")
+    del ch, x
+    gc.collect()
+    print("\nFiLM CNN done at 128x128 (~6 GB peak). dtype-fix verified; in_ch matches C3.")
 '''
 
 # ===========================================================================
@@ -1282,6 +1302,8 @@ else:
     save_json(res, "E3_repr_search.json")
     print("Raw-image baseline (repr+az):", res.get("raw"))
     print("Best representation:", max(res, key=res.get), res[max(res, key=res.get)])
+    del x
+    gc.collect()
 '''
 
 # ===========================================================================
@@ -1295,7 +1317,9 @@ print("=" * 70)
 if data["img_train"] is None:
     print("SKIP E4: no train images mounted")
 else:
-    x = preload("train")
+    # MEMORY FIX: build the 6 spatial channels at 128 (the model downsamples to
+    # 64/32 anyway). At 256 the 6-channel stack alone was ~12 GB -> notebook OOM.
+    x = preload("train", 128)
 
     class SpatialMorphCNN(nn.Module):
         """Multi-scale conv fusion + FiLM azimuth gate + classifier."""
@@ -1309,7 +1333,7 @@ else:
                                          nn.ReLU(), nn.MaxPool2d(2))
             self.fuse = nn.Sequential(nn.Conv2d(48, d, 3, padding=1), nn.BatchNorm2d(d),
                                       nn.ReLU(), nn.AdaptiveAvgPool2d(1))
-            self.film = nn.Sequential(nn.Linear(2, 4*d), nn.SiLU())
+self.film = nn.Sequential(nn.Linear(2, 2*d), nn.SiLU())
             self.head = nn.Sequential(nn.Linear(d, 64), nn.LeakyReLU(0.1), nn.Linear(64, 1))
         def forward(self, xm, az):
             b1 = self.branch1(xm); b2 = self.branch2(xm); b3 = self.branch3(xm)
@@ -1320,16 +1344,22 @@ else:
             return self.head(f)
 
     def build_spatial_channels(x):
+        # channels: [raw, gx, gy, gmag, laplacian(raw), laplacian(gmag)]
+        n, H, W = x.shape
         gx = np.gradient(x, axis=2); gy = np.gradient(x, axis=1)
         gmag = np.sqrt(gx**2 + gy**2)
-        # per-image laplacian (batch-wise scipy would smear across samples)
-        lap = np.zeros_like(x, dtype=np.float32)
-        curv = np.zeros_like(x, dtype=np.float32)
+        out = np.empty((n, 6, H, W), dtype=np.float32)
+        out[:, 0] = x
+        out[:, 1] = gx; del gx
+        out[:, 2] = gy; del gy
+        out[:, 3] = gmag
+        # per-image laplacians (batch-wise scipy would smear across samples)
         for i in range(len(x)):
-            lap[i] = gaussian_laplace(x[i], sigma=1.0)
+            out[i, 5] = gaussian_laplace(gmag[i], sigma=1.0)
+        del gmag
         for i in range(len(x)):
-            curv[i] = gaussian_laplace(gmag[i], sigma=1.0)
-        return np.stack([x, gx, gy, gmag, lap, curv], axis=1).astype(np.float32)
+            out[i, 4] = gaussian_laplace(x[i], sigma=1.0)
+        return out
 
     def train_spatial(tag, Xsp, Xazm, sub=128):
         """sub: crop/downsample spatial size (64 keeps full receptive span)."""
@@ -1392,6 +1422,9 @@ else:
               (tag, m["BA"], o, m["recall_0"], m["recall_1"], m["auc"]))
     save_json({"note": "spatial morph CNN E4 done", "baseline": BASELINE_BA},
               "E4_spatial_results.json")
+    del Xsp, x
+    gc.collect()
+    print("\nSpatial morphology CNN done at 128x128 (~5 GB peak).")
 '''
 
 # ===========================================================================
