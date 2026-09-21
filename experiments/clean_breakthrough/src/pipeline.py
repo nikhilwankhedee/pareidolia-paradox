@@ -49,7 +49,7 @@ def _image_matrix(ids, image_dir, kind, azimuth=None):
     return np.vstack(rows).astype(np.float32)
 
 
-def _foundation_matrix(ids, image_dir, kind, model, azimuth):
+def _foundation_matrix(ids, image_dir, kind, model, azimuth, preprocess=None):
     import torch
     from PIL import Image
     from torchvision import transforms
@@ -66,11 +66,23 @@ def _foundation_matrix(ids, image_dir, kind, model, azimuth):
         for i in ids[start:start + 16]:
             views = _view_arrays(Path(image_dir) / str(i), azimuth[str(i)], kind)
             images.extend(views)
-        batch = torch.stack([transform(Image.fromarray(
-            np.clip(image * 255, 0, 255).astype("uint8"))) for image in images]).to(device)
+        pil_images = [Image.fromarray(np.clip(image * 255, 0, 255).astype("uint8"))
+                      for image in images]
+        if kind == "clip" and preprocess is not None:
+            # Hugging Face CLIP processors return the pixel_values tensor
+            # expected by CLIPModel; open_clip supplies a tensor transform.
+            try:
+                batch = preprocess(images=pil_images, return_tensors="pt")["pixel_values"]
+            except (TypeError, KeyError):
+                batch = torch.stack([preprocess(image) for image in pil_images])
+        else:
+            batch = torch.stack([transform(image) for image in pil_images])
+        batch = batch.to(device)
         with torch.no_grad():
             if kind == "clip" and hasattr(model, "encode_image"):
                 z = model.encode_image(batch)
+            elif kind == "clip" and hasattr(model, "get_image_features"):
+                z = model.get_image_features(pixel_values=batch)
             else:
                 z = model(batch)
                 if isinstance(z, (tuple, list)):
@@ -100,17 +112,20 @@ def extract_features(dataset, train, test, kind, cache_dir):
             model = load_dino("dinov2_vitb14")
         elif kind == "clip":
             from .clip import load_clip
-            model, _ = load_clip()
+            model, preprocess = load_clip()
         else:
             from .pretrained import load_encoder
             model = load_encoder()
+            preprocess = None
             if hasattr(model, "fc"):
                 import torch.nn as nn
                 model.fc = nn.Identity()
         az_tr = dict(zip(train.image_id.astype(str), train.azimuth.astype(float)))
         az_te = dict(zip(test.image_id.astype(str), test.azimuth.astype(float)))
-        xtr = _foundation_matrix(train.image_id, dataset["train_images"], kind, model, az_tr)
-        xte = _foundation_matrix(test.image_id, dataset["test_images"], kind, model, az_te)
+        xtr = _foundation_matrix(train.image_id, dataset["train_images"], kind, model, az_tr,
+                                 preprocess)
+        xte = _foundation_matrix(test.image_id, dataset["test_images"], kind, model, az_te,
+                                 preprocess)
         if "azimuth" in kind:
             xtr = np.c_[xtr, harmonic(train.azimuth, 3)]
             xte = np.c_[xte, harmonic(test.azimuth, 3)]
