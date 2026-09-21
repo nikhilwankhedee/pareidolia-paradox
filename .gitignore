@@ -17,6 +17,7 @@
 # Generated archives / model artifacts (regenerable)
 # ============================================================
 *.zip
+!model_weights.zip
 model_checkpoints/
 logs/
 *.pt

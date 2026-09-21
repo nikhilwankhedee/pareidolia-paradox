@@ -1,0 +1,4 @@
+regime,n,method,status
+overlap,829,learned_flip,VALIDATED-to-train-mechanics
+intra,196,E_joint_direction_table,post-estimates
+novel,975,"fusion(retrieval_raw48, az)",estimated

@@ -1,0 +1,33 @@
+{
+  "pipeline_version": "2.0-final-day",
+  "timestamp": "2026-09-20T05:15:46Z",
+  "random_seed": 42,
+  "train_rows": 7854,
+  "train_duplicate_pairs": 1458,
+  "regime_rules": {
+    "overlap_regime": {
+      "method": "learned_flip_world_c",
+      "rule": "1 - train_label",
+      "expected_ba": 1.0
+    },
+    "intra_test_regime": {
+      "method": "lo_delta_transition",
+      "rule": "pair_ordered_az_band_x_delta_band",
+      "expected_ba": 0.8035
+    },
+    "novel_regime": {
+      "method": "harmonic_azimuth_lightgbm_and_step270",
+      "harmonic_order": 1,
+      "step_boundary_degrees": 270.0,
+      "probability_threshold": 0.5,
+      "expected_ba": 0.7356
+    }
+  },
+  "python_version": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+  "artifacts": {
+    "train_hash_lookup": "train_hash_lookup.json",
+    "intra_transition_model": "intra_transition_model.json",
+    "azimuth_model_text": "azimuth_model.txt",
+    "azimuth_model_joblib": "azimuth_model.joblib"
+  }
+}

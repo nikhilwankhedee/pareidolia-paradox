@@ -4,6 +4,9 @@ pandas
 Pillow
 scipy
 scikit-learn
+lightgbm
+joblib
+opencv-python
 
 # PyTorch (CPU for local Model A/folding; CUDA build required on Kaggle GPU)
 torch>=2.0
