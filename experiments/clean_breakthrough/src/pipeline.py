@@ -107,6 +107,7 @@ def extract_features(dataset, train, test, kind, cache_dir):
         # Probe the requested optional backend so the notebook reports the
         # real missing dependency/model error rather than silently substituting
         # a handcrafted feature for a foundation-model experiment.
+        preprocess = None
         if kind.startswith("dino"):
             from .dino import load_dino
             model = load_dino("dinov2_vitb14")
