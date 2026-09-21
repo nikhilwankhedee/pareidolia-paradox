@@ -35,7 +35,11 @@ def discover_dataset(root=None):
                     train_meta.parent / "images" / ("train_images" if kind == "train" else "eval_images"),
                 ]
                 candidates = [x for x in preferred if x.is_dir()]
-                for base in (r, train_meta.parent):
+                search_roots = [r, train_meta.parent]
+                kaggle_input = Path("/kaggle/input")
+                if kaggle_input.is_dir():
+                    search_roots.append(kaggle_input)
+                for base in search_roots:
                     if base.exists():
                         candidates.extend(x for x in base.rglob("*") if x.is_dir())
                 scored = []
