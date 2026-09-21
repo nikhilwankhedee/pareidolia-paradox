@@ -1,0 +1,11 @@
+seed: 42
+n_folds: 5
+model: logistic
+feature: sfs
+output_dir: /kaggle/working/clean_breakthrough
+cache_dir: /kaggle/working/clean_breakthrough/cache
+clean_rules:
+  group_by_exact_train_hash: true
+  use_test_labels: false
+  fit_preprocessing_inside_fold: true
+  select_threshold_from_oof_only: true

@@ -1,0 +1,6 @@
+seed: 42
+n_folds: 5
+model: logistic
+output_dir: /kaggle/working/clean_breakthrough
+cache_dir: /kaggle/working/clean_breakthrough/cache
+feature: classifier
