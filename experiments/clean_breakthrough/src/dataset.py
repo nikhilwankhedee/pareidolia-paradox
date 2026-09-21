@@ -21,12 +21,35 @@ def discover_dataset(root=None):
             if (r/'Train'/'train_metadata.csv').exists(): train_meta=r/'Train'/'train_metadata.csv'; test_meta=r/'Test'/'test_metadata.csv'
         if train_meta.exists() and test_meta.exists():
             def imgdir(kind, ids):
-                options=[r/'images', r/'Train/images/train_images', r/'Test/images/eval_images', train_meta.parent/'images']
-                for x in options:
-                    if x.exists() and any((x/i).exists() for i in ids[:min(8,len(ids))]): return x
-                for x in r.rglob('*'):
-                    if x.is_dir() and any((x/i).exists() for i in ids[:min(8,len(ids))]): return x
-                return options[0]
+                """Find the leaf directory containing the requested image IDs.
+
+                Kaggle datasets commonly expose ``images/train_images`` or
+                ``images/eval_images``; selecting the parent ``images`` would
+                make otherwise valid metadata look unreadable.
+                """
+                ids = [str(x) for x in ids[:32]]
+                preferred = [
+                    r / "Train" / "images" / "train_images",
+                    r / "Test" / "images" / "eval_images",
+                    r / "images" / ("train_images" if kind == "train" else "eval_images"),
+                    train_meta.parent / "images" / ("train_images" if kind == "train" else "eval_images"),
+                ]
+                candidates = [x for x in preferred if x.is_dir()]
+                for base in (r, train_meta.parent):
+                    if base.exists():
+                        candidates.extend(x for x in base.rglob("*") if x.is_dir())
+                scored = []
+                for directory in set(candidates):
+                    hits = sum((directory / image_id).is_file() for image_id in ids)
+                    if hits:
+                        scored.append((hits, len(str(directory)), directory))
+                if not scored:
+                    raise FileNotFoundError(
+                        f"Could not locate {kind} image directory under {r}; "
+                        f"sample IDs={ids[:3]}"
+                    )
+                scored.sort(key=lambda item: (item[0], -item[1]), reverse=True)
+                return scored[0][2]
             tr=pd.read_csv(train_meta); te=pd.read_csv(test_meta)
             tr=tr.rename(columns={'sun_azimuth_angle':'azimuth'}); te=te.rename(columns={'sun_azimuth_angle':'azimuth'})
             tr.image_id=tr.image_id.astype(str); te.image_id=te.image_id.astype(str)
