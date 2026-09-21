@@ -1,0 +1,90 @@
+{
+  "champion": "Champion 01 candidate_v1_azfix",
+  "commit": "94e064d80d1d6d69d1efbba3f2534089721cb8bd",
+  "submission_sha256": "e19b624b979286a47da42a270e3fcfc6e5bb697849fd2092793ecaac50fc3b41",
+  "weights_sha256": "644b36d0e6959f1384be35780e5e965bd4a110627338e8575fc13af951e2aeaf",
+  "regime_counts": {
+    "overlap": 829,
+    "intra": 196,
+    "novel": 975,
+    "total": 2000
+  },
+  "overlap": {
+    "method": "train duplicate leave-one-member-as-query pseudo-hidden validation",
+    "ba": 1.0,
+    "n": 2916
+  },
+  "intra": {
+    "method": "5-fold grouped duplicate-pair validation; exact lo_delta table",
+    "ba": 0.8024691358024691,
+    "fold_ba": [
+      0.8356164383561644,
+      0.7876712328767124,
+      0.7842465753424658,
+      0.8109965635738832,
+      0.7938144329896907
+    ],
+    "fold_sd": 0.02119790209219424,
+    "n": 2916
+  },
+  "novel": {
+    "method": "5-fold stratified OOF over exact train singletons; order-1 harmonic LightGBM; threshold 0.5",
+    "ba": 0.747915517272064,
+    "recall_0": 0.7256446991404012,
+    "recall_1": 0.7701863354037267,
+    "fold_ba": [
+      0.7321306701851769,
+      0.7594522043769052,
+      0.7690274414850686,
+      0.7394599356053703,
+      0.7395054978433874
+    ],
+    "fold_sd": 0.015573978123179552,
+    "confusion_matrix": [
+      [
+        1013,
+        383
+      ],
+      [
+        814,
+        2728
+      ]
+    ],
+    "n": 4938,
+    "test_azimuth_weighted_ba": 0.7075241167090586,
+    "test_azimuth_weighted_recall_0": 0.48760927499367906,
+    "test_azimuth_weighted_recall_1": 0.9274389584244381,
+    "weighted_fold_ba": [
+      0.6739232462978109,
+      0.7203380788491026,
+      0.7356051196124954,
+      0.6988480891682107,
+      0.7126171320614183
+    ],
+    "weighted_fold_sd": 0.02334639519749698,
+    "threshold": 0.5,
+    "train_azimuth_bin_counts": [
+      477,
+      438,
+      483,
+      498,
+      492,
+      477,
+      1025,
+      1048
+    ],
+    "test_novel_azimuth_bin_counts": [
+      71,
+      81,
+      269,
+      262,
+      74,
+      66,
+      75,
+      77
+    ]
+  },
+  "regime_weighted_estimate_ordinary": 0.8577507899787731,
+  "regime_weighted_estimate_test_azimuth_weighted": 0.838059982204308,
+  "uncertainty_note": "Fold standard deviations are reported descriptively; no confidence interval is asserted because the hidden test labels and regime sampling process are unknown."
+}

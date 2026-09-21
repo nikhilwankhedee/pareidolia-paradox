@@ -1,19 +1,16 @@
 # Core runtime for local scripts
-numpy
-pandas
-Pillow
-scipy
-scikit-learn
-lightgbm
-joblib
-opencv-python
+numpy==1.26.4
+pandas==2.2.3
+Pillow==10.4.0
+scipy==1.14.1
+scikit-learn==1.5.2
+lightgbm==4.5.0
+joblib==1.4.2
+opencv-python==4.10.0.84
 
 # PyTorch (CPU for local Model A/folding; CUDA build required on Kaggle GPU)
-torch>=2.0
+torch==2.4.1
 
 # Notebook build / validation helpers
-nbformat
-jupyter
-
-# Reproducible fold assignment (also available via scikit-learn)
-# (StratifiedKFold is part of scikit-learn)
+nbformat==5.10.4
+jupyter==1.1.1
